@@ -1,17 +1,26 @@
 package sheridan.dheripu.assignment4.data.remote
 
+import dagger.Module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+@Module
+@InstallIn(SingletonComponent::class)
     object RetrofitModule {
-
-        private const val baseUrl =  "http://10.0.2.2:8080/api/"
-
+        private const val baseUrl =  "https://api.openweathermap.org/"
+        @Provides
+        @Singleton
         fun retrofit(): Retrofit =
             Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
-//        fun Assignmwnt4Api(retrofit: Retrofit): Assignment4Api =
-//            retrofit.create(Assignment4Api::class.java)
+
+        @Provides
+        @Singleton
+        fun provideOpenWeatherApi(retrofit: Retrofit): OpenWeatherApi =
+            retrofit.create(OpenWeatherApi::class.java)
     }
